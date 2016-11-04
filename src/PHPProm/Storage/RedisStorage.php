@@ -40,7 +40,7 @@ class RedisStorage extends AbstractStorage {
             return $prefix.':'.$key;
         }, $keys);
         foreach ($this->redis->mget($prefixedKeys) as $i => $value) {
-            $measurements[$keys[$i]] = $value !== false ? (float)$value : null;
+            $measurements[$keys[$i]] = $value !== false ? (float)$value : 'Nan';
         }
         return $measurements;
     }

@@ -48,7 +48,7 @@ class SilexSetup {
             $routeTimes = $storage->getMeasurements('time', $routes);
 
             $export = new PrometheusExport();
-            $response = $export->getMetric('route_time', 'name', $routeTimes, 'request times per route', 'gauge');
+            $response = $export->getMetric('route_time', 'name', $routeTimes, 'request times per route in seconds', 'gauge');
 
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };

@@ -28,7 +28,7 @@ class SilexSetup {
 
         $app->finish(function (Request $request, Response $response) use ($routeTime) {
             $route = $request->get('_route');
-            $routeTime->stop($route);
+            $routeTime->stop('time', $route);
         });
 
     }
@@ -45,10 +45,10 @@ class SilexSetup {
                     $routes[] = $method.$path;
                 }
             }
-            $measurements = $storage->getMeasurements($routes);
+            $routeTimes = $storage->getMeasurements('time', $routes);
 
             $export = new PrometheusExport();
-            $response = $export->getMetric('route_time', 'name', $measurements, 'request times per route', 'gauge');
+            $response = $export->getMetric('route_time', 'name', $routeTimes, 'request times per route', 'gauge');
 
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };

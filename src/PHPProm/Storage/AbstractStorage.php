@@ -15,6 +15,6 @@ abstract class AbstractStorage {
 
     abstract public function storeMeasurement($value, $key);
 
-    abstract public function getMeasurements(array $keys);
+    abstract public function getMeasurements($prefix, array $keys);
 
 }

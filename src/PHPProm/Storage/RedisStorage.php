@@ -34,9 +34,12 @@ class RedisStorage extends AbstractStorage {
         $this->redis->set($key, $value);
     }
 
-    public function getMeasurements(array $keys) {
+    public function getMeasurements($prefix, array $keys) {
         $measurements = [];
-        foreach ($this->redis->mget($keys) as $i => $value) {
+        $prefixedKeys = array_map(function($key) use ($prefix) {
+            return $prefix.':'.$key;
+        }, $keys);
+        foreach ($this->redis->mget($prefixedKeys) as $i => $value) {
             $measurements[$keys[$i]] = $value !== false ? (float)$value : null;
         }
         return $measurements;

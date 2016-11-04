@@ -30,7 +30,7 @@ class RedisStorage extends AbstractStorage {
         $this->prefix = $prefix;
     }
 
-    public function storeMeasurement($value, $key) {
+    public function storeMeasurement($key, $value) {
         $this->redis->set($key, $value);
     }
 

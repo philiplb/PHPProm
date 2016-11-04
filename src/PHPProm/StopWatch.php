@@ -29,7 +29,7 @@ class StopWatch {
 
     public function stop($prefix, $key) {
         $time = microtime(true) - $this->start;
-        $this->storage->storeMeasurement($time, $prefix.':'.$key);
+        $this->storage->storeMeasurement($prefix.':'.$key, $time);
     }
 
 }

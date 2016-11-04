@@ -27,7 +27,7 @@ class PrometheusExport {
         $result .= implode("\n", array_map(function ($value, $labelValue) use ($metric, $label) {
             return $metric.'{'.$label.'="'.$labelValue.'"} '.$value;
         }, $labelsToValues, array_keys($labelsToValues)));
-        return $result;
+        return $result."\n";
     }
 
 }

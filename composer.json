@@ -1,0 +1,19 @@
+{
+    "name": "philiplb/phpprom",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philip Lehmann-Boehm",
+            "email": "philip@philiplb.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "PHPProm\\": "src/PHPProm" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

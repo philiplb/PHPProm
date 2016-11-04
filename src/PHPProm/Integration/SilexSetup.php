@@ -9,8 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace PHPProm;
+namespace PHPProm\Integration;
 
+use PHPProm\PrometheusExport;
+use PHPProm\StopWatch;
 use PHPProm\Storage\AbstractStorage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

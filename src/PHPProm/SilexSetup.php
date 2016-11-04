@@ -26,9 +26,10 @@ class SilexSetup {
             $routeTime->start();
         }, Application::EARLY_EVENT);
 
-        $app->finish(function (Request $request, Response $response) use ($routeTime) {
+        $app->finish(function (Request $request, Response $response) use ($routeTime, $storage) {
             $route = $request->get('_route');
             $routeTime->stop('time', $route);
+            $storage->storeMeasurement('memory', $route, memory_get_peak_usage(true));
         });
 
     }
@@ -45,10 +46,13 @@ class SilexSetup {
                     $routes[] = $method.$path;
                 }
             }
-            $routeTimes = $storage->getMeasurements('time', $routes);
-
             $export = new PrometheusExport();
-            $response = $export->getMetric('route_time', 'name', $routeTimes, 'request times per route in seconds', 'gauge');
+
+            $routesTime = $storage->getMeasurements('time', $routes);
+            $response = $export->getMetric('route_time', 'name', $routesTime, 'request times per route in seconds', 'gauge');
+
+            $routesMemory = $storage->getMeasurements('memory', $routes);
+            $response .= $export->getMetric('route_memory', 'name', $routesMemory, 'request memory per route in bytes', 'gauge');
 
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };

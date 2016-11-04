@@ -17,7 +17,7 @@ class RedisStorage extends AbstractStorage {
 
     protected $prefix;
 
-    public function __construct($host, $password = null, $port = 6379, $dbIndex = null, $prefix = 'RoutePerformanceExporter:') {
+    public function __construct($host, $password = null, $port = 6379, $prefix = 'PHPProm:', $dbIndex = null) {
         $this->redis = new \Redis();
         $this->redis->connect($host, $port);
         if ($password !== null) {

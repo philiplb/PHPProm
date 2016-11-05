@@ -15,8 +15,6 @@ class RedisStorage extends AbstractStorage {
 
     protected $redis;
 
-    protected $prefix;
-
     public function __construct($host, $password = null, $port = 6379, $prefix = 'PHPProm:', $dbIndex = null) {
         $this->redis = new \Redis();
         $this->redis->connect($host, $port);
@@ -27,7 +25,6 @@ class RedisStorage extends AbstractStorage {
             $this->redis->select($dbIndex);
         }
         $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
-        $this->prefix = $prefix;
     }
 
     public function storeMeasurement($prefix, $key, $value) {

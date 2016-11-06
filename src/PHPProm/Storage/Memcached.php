@@ -28,7 +28,14 @@ class Memcached implements StorageInterface {
     }
 
     public function incrementMeasurement($prefix, $key) {
-        $this->memcached->increment($this->prefix.$prefix.':'.$key);
+        // Increment doesn't work on older versions, see
+        // https://github.com/php-memcached-dev/php-memcached/issues/133
+        $value = $this->memcached->get($this->prefix.$prefix.':'.$key);
+        if ($value === false) {
+            $value = 0;
+        }
+        $value++;
+        $this->storeMeasurement($prefix, $key, $value);
     }
 
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {

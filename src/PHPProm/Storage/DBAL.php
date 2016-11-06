@@ -49,7 +49,7 @@ class DBAL extends AbstractStorage {
         ;
         $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder             = $this->connection->createQueryBuilder()
+        $queryBuilder           = $this->connection->createQueryBuilder()
             ->update('`'.$this->table.'`')
             ->set('`value`', '`value` + 1')
             ->where('`key` = ?')

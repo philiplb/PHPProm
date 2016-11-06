@@ -24,11 +24,11 @@ class SilexSetup {
 
         $routeTime = new StopWatch($storage);
 
-        $app->before(function (Request $request, Application $app) use ($routeTime) {
+        $app->before(function() use ($routeTime) {
             $routeTime->start();
         }, Application::EARLY_EVENT);
 
-        $app->finish(function (Request $request, Response $response) use ($routeTime, $storage) {
+        $app->finish(function(Request $request) use ($routeTime, $storage) {
             $route = $request->get('_route');
             $routeTime->stop('time', $route);
             $storage->storeMeasurement('memory', $route, memory_get_peak_usage(true));

@@ -11,6 +11,8 @@
 
 namespace PHPProm;
 
+use PHPProm\Storage\AbstractStorage;
+
 class PrometheusExport {
 
     protected function getHeader($type, $metric, $label) {
@@ -28,6 +30,15 @@ class PrometheusExport {
             return $metric.'{'.$label.'="'.$labelValue.'"} '.$value;
         }, $labelsToValues, array_keys($labelsToValues)));
         return $result."\n";
+    }
+
+    public function getExport(AbstractStorage $storage, $keys) {
+        $export = '';
+        foreach ($storage->getAvailableMetrics() as $availableMetric) {
+            $measurements = $storage->getMeasurements($availableMetric['storagePrefix'], $keys, $availableMetric['defaultValue']);
+            $export .= $this->getMetric($availableMetric['metric'], $availableMetric['label'], $measurements, $availableMetric['help'], $availableMetric['type']);
+        }
+        return $export;
     }
 
 }

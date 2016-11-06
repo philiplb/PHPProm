@@ -11,7 +11,7 @@
 
 namespace PHPProm\Storage;
 
-class Memcached implements StorageInterface {
+class Memcached extends AbstractStorage {
 
     protected $memcached;
 

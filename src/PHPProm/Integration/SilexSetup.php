@@ -13,14 +13,18 @@ namespace PHPProm\Integration;
 
 use PHPProm\PrometheusExport;
 use PHPProm\StopWatch;
-use PHPProm\Storage\StorageInterface;
+use PHPProm\Storage\AbstractStorage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Silex\Application;
 
 class SilexSetup {
 
-    protected function setupMiddleware(Application $app, StorageInterface $storage) {
+    protected function setupMiddleware(Application $app, AbstractStorage $storage) {
+
+        $storage->addAvailableMetric('time', 'route_time', 'name', 'request times per route in seconds', 'gauge', 'Nan');
+        $storage->addAvailableMetric('memory', 'route_memory', 'name', 'request memory per route in bytes', 'gauge', 'Nan');
+        $storage->addAvailableMetric('requests_total', 'route_requests_total', 'name', 'total requests per route', 'counter', 0);
 
         $routeTime = new StopWatch($storage);
 
@@ -37,7 +41,7 @@ class SilexSetup {
 
     }
 
-    public function setupAndGetMetricsRoute(Application $app, StorageInterface $storage) {
+    public function setupAndGetMetricsRoute(Application $app, AbstractStorage $storage) {
 
         $this->setupMiddleware($app, $storage);
 
@@ -50,16 +54,7 @@ class SilexSetup {
                 }
             }
             $export = new PrometheusExport();
-
-            $routesTime = $storage->getMeasurements('time', $routes);
-            $response = $export->getMetric('route_time', 'name', $routesTime, 'request times per route in seconds', 'gauge');
-
-            $routesMemory = $storage->getMeasurements('memory', $routes);
-            $response .= $export->getMetric('route_memory', 'name', $routesMemory, 'request memory per route in bytes', 'gauge');
-
-            $routesRequestsTotal = $storage->getMeasurements('requests_total', $routes, 0);
-            $response .= $export->getMetric('route_requests_total', 'name', $routesRequestsTotal, 'total requests per route', 'counter');
-
+            $response = $export->getExport($storage, $routes);
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };
     }

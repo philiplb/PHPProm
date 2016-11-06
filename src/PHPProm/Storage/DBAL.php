@@ -13,7 +13,7 @@ namespace PHPProm\Storage;
 
 use \Doctrine\DBAL\Connection;
 
-class DBAL implements StorageInterface {
+class DBAL extends AbstractStorage {
 
     protected $connection;
 

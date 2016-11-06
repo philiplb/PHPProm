@@ -22,7 +22,7 @@ class PrometheusExport {
     }
 
     public function getMetric($metric, $label, array $labelsToValues, $help = null, $type = null) {
-        $result = $this->getHeader('HELP', $metric, $help);
+        $result  = $this->getHeader('HELP', $metric, $help);
         $result .= $this->getHeader('TYPE', $metric, $type);
         $result .= implode("\n", array_map(function($value, $labelValue) use ($metric, $label) {
             return $metric.'{'.$label.'="'.$labelValue.'"} '.$value;

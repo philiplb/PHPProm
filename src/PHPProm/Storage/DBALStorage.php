@@ -27,7 +27,7 @@ class DBALStorage extends AbstractStorage {
 
     public function __construct(Connection $connection, $table = 'phpprom') {
         $this->connection = $connection;
-        $this->table = $table;
+        $this->table      = $table;
 
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
@@ -58,7 +58,7 @@ class DBALStorage extends AbstractStorage {
         $prefixedKey = $prefix.':'.$key;
         $this->statementKeyExists->bindValue(1, $prefixedKey);
         $this->statementKeyExists->execute();
-        $exists = $this->statementKeyExists->fetch(\PDO::FETCH_ASSOC);
+        $exists         = $this->statementKeyExists->fetch(\PDO::FETCH_ASSOC);
         $statementStore = $exists['amount'] > 0 ? $this->statementKeyUpdate : $this->statementKeyInsert;
         $statementStore->bindValue(1, $value);
         $statementStore->bindValue(2, $prefixedKey);
@@ -82,7 +82,7 @@ class DBALStorage extends AbstractStorage {
         }
         $rows = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
-            $unprefixedKey = substr($row['key'], strlen($prefix) + 1);
+            $unprefixedKey                = substr($row['key'], strlen($prefix) + 1);
             $measurements[$unprefixedKey] = (float)$row['value'];
         }
         return $measurements;

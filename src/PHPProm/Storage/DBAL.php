@@ -25,36 +25,36 @@ class DBAL extends AbstractStorage {
 
     protected $statementKeyUpdate;
 
-    protected $statementKeyIncrement;
+    protected $statementKeyIncr;
 
     protected function buildStatements() {
-        $queryBuilder                = $this->connection->createQueryBuilder()
+        $queryBuilder             = $this->connection->createQueryBuilder()
             ->select('COUNT(`key`) AS amount')
             ->from('`'.$this->table.'`')
             ->where('`key` = ?')
         ;
-        $this->statementKeyExists    = $this->connection->prepare($queryBuilder->getSQL());
+        $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder                = $this->connection->createQueryBuilder()
+        $queryBuilder             = $this->connection->createQueryBuilder()
             ->insert('`'.$this->table.'`')
             ->setValue('`value`', '?')
             ->setValue('`key`', '?')
         ;
-        $this->statementKeyInsert    = $this->connection->prepare($queryBuilder->getSQL());
+        $this->statementKeyInsert = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder                = $this->connection->createQueryBuilder()
+        $queryBuilder             = $this->connection->createQueryBuilder()
             ->update('`'.$this->table.'`')
             ->set('`value`', '?')
             ->where('`key` = ?')
         ;
-        $this->statementKeyUpdate    = $this->connection->prepare($queryBuilder->getSQL());
+        $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder                = $this->connection->createQueryBuilder()
+        $queryBuilder             = $this->connection->createQueryBuilder()
             ->update('`'.$this->table.'`')
             ->set('`value`', '`value` + 1')
             ->where('`key` = ?')
         ;
-        $this->statementKeyIncrement = $this->connection->prepare($queryBuilder->getSQL());
+        $this->statementKeyIncr = $this->connection->prepare($queryBuilder->getSQL());
     }
 
     public function __construct(Connection $connection, $table = 'phpprom') {
@@ -79,7 +79,7 @@ class DBAL extends AbstractStorage {
         $this->statementKeyExists->bindValue(1, $prefixedKey);
         $this->statementKeyExists->execute();
         $exists             = $this->statementKeyExists->fetch(\PDO::FETCH_ASSOC);
-        $statementIncrement = $exists['amount'] > 0 ? $this->statementKeyIncrement : $this->statementKeyInsert;
+        $statementIncrement = $exists['amount'] > 0 ? $this->statementKeyIncr : $this->statementKeyInsert;
         if ($exists['amount'] > 0) {
             $statementIncrement->bindValue(1, $prefixedKey);
         } else {

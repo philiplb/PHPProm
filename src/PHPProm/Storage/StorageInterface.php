@@ -15,6 +15,6 @@ interface StorageInterface {
 
     public function storeMeasurement($prefix, $key, $value);
 
-    public function getMeasurements($prefix, array $keys);
+    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan');
 
 }

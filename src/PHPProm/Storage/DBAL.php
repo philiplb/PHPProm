@@ -65,7 +65,7 @@ class DBAL implements StorageInterface {
         $statementStore->execute();
     }
 
-    public function getMeasurements($prefix, array $keys) {
+    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $prefixedKeys = array_map(function($key) use ($prefix) {
             return $prefix.':'.$key;
         }, $keys);
@@ -78,7 +78,7 @@ class DBAL implements StorageInterface {
         ;
         $measurements = [];
         foreach ($keys as $key) {
-            $measurements[$key] = 'Nan';
+            $measurements[$key] = $defaultValue;
         }
         $rows = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {

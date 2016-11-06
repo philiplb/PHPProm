@@ -27,14 +27,14 @@ class Memcached implements StorageInterface {
         $this->memcached->set($this->prefix.$prefix.':'.$key, $value);
     }
 
-    public function getMeasurements($prefix, array $keys) {
+    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         $prefixedKeys = array_map(function($key) use ($prefix) {
             return $this->prefix.$prefix.':'.$key;
         }, $keys);
         foreach ($this->memcached->getMulti($prefixedKeys) as $key => $value) {
             $unprefixedKey = substr($key, strlen($this->prefix) + strlen($prefix) + 1);
-            $measurements[$unprefixedKey] = $value !== false ? (float)$value : 'Nan';
+            $measurements[$unprefixedKey] = $value !== false ? (float)$value : $defaultValue;
         }
         return $measurements;
     }

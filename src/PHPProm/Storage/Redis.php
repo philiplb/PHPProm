@@ -31,13 +31,13 @@ class Redis implements StorageInterface {
         $this->redis->set($prefix.':'.$key, $value);
     }
 
-    public function getMeasurements($prefix, array $keys) {
+    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         $prefixedKeys = array_map(function($key) use ($prefix) {
             return $prefix.':'.$key;
         }, $keys);
         foreach ($this->redis->mget($prefixedKeys) as $i => $value) {
-            $measurements[$keys[$i]] = $value !== false ? (float)$value : 'Nan';
+            $measurements[$keys[$i]] = $value !== false ? (float)$value : $defaultValue;
         }
         return $measurements;
     }

@@ -34,10 +34,27 @@ abstract class AbstractStorage {
         return $this->availableMetrics;
     }
 
+    /**
+     * @param $prefix
+     * @param $key
+     * @param $value
+     * @return void
+     */
     abstract public function storeMeasurement($prefix, $key, $value);
 
+    /**
+     * @param $prefix
+     * @param $key
+     * @return void
+     */
     abstract public function incrementMeasurement($prefix, $key);
 
+    /**
+     * @param $prefix
+     * @param array $keys
+     * @param string $defaultValue
+     * @return array
+     */
     abstract public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan');
 
 }

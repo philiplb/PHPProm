@@ -32,6 +32,7 @@ class SilexSetup {
             $route = $request->get('_route');
             $routeTime->stop('time', $route);
             $storage->storeMeasurement('memory', $route, memory_get_peak_usage(true));
+            $storage->incrementMeasurement('requests_total', $route);
         });
 
     }
@@ -55,6 +56,9 @@ class SilexSetup {
 
             $routesMemory = $storage->getMeasurements('memory', $routes);
             $response .= $export->getMetric('route_memory', 'name', $routesMemory, 'request memory per route in bytes', 'gauge');
+
+            $routesRequestsTotal = $storage->getMeasurements('requests_total', $routes, 0);
+            $response .= $export->getMetric('route_requests_total', 'name', $routesRequestsTotal, 'total requests per route', 'counter');
 
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };

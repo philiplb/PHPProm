@@ -26,24 +26,21 @@ class DBALStorage extends AbstractStorage {
     protected $statementKeyUpdate;
 
     protected function buildStatements() {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(`key`) AS amount')
             ->from('`'.$this->table.'`')
             ->where('`key` = ?')
         ;
         $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->insert('`'.$this->table.'`')
             ->setValue('`value`', '?')
             ->setValue('`key`', '?')
         ;
         $this->statementKeyInsert = $this->connection->prepare($queryBuilder->getSQL());
 
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->update('`'.$this->table.'`')
             ->set('`value`', '?')
             ->where('`key` = ?')

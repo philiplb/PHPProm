@@ -13,20 +13,61 @@ namespace PHPProm\Storage;
 
 use \Doctrine\DBAL\Connection;
 
+/**
+ * Class DBAL
+ * Storage implementation using Doctrine DBAL.
+ * This way, MySQL and other databases are supported.
+ * The used SQL is kept very simple so the queries should work
+ * with most of the DBAL supported databases.
+ * A MySQL example of the expected table:
+ * CREATE TABLE `phpprom` (
+ *     `key` varchar(255) NOT NULL,
+ *     `value` double NOT NULL,
+ *     PRIMARY KEY (`key`)
+ * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ * @package PHPProm\Storage
+ */
 class DBAL extends AbstractStorage {
 
+    /**
+     * @var Connection
+     * The DBAL connection.
+     */
     protected $connection;
 
+    /**
+     * @var string
+     * The table to use.
+     */
     protected $table;
 
+    /**
+     * @var \Doctrine\DBAL\DBALException
+     * The prepared statement to check whether there is already a value for a given key.
+     */
     protected $statementKeyExists;
 
+    /**
+     * @var \Doctrine\DBAL\DBALException
+     * The prepared statement to insert a new key value pair.
+     */
     protected $statementKeyInsert;
 
+    /**
+     * @var \Doctrine\DBAL\DBALException
+     * The prepared statement to update the value of an existing key.
+     */
     protected $statementKeyUpdate;
 
+    /**
+     * @var \Doctrine\DBAL\DBALException
+     * The prepared statement to increment the value of the given key.
+     */
     protected $statementKeyIncr;
 
+    /**
+     * Builds the prepared statements.
+     */
     protected function buildStatements() {
         $queryBuilder             = $this->connection->createQueryBuilder()
             ->select('COUNT(`key`) AS amount')->from('`'.$this->table.'`')->where('`key` = ?');
@@ -45,12 +86,24 @@ class DBAL extends AbstractStorage {
         $this->statementKeyIncr = $this->connection->prepare($queryBuilder->getSQL());
     }
 
+    /**
+     * DBAL constructor.
+     *
+     * @param Connection $connection
+     * the DBAL connection
+     * @param string $table
+     * the table to use
+     */
     public function __construct(Connection $connection, $table = 'phpprom') {
+        parent::__construct();
         $this->connection = $connection;
         $this->table      = $table;
         $this->buildStatements();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function storeMeasurement($prefix, $key, $value) {
         $prefixedKey = $prefix.':'.$key;
         $this->statementKeyExists->bindValue(1, $prefixedKey);
@@ -62,6 +115,9 @@ class DBAL extends AbstractStorage {
         $statementStore->execute();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function incrementMeasurement($prefix, $key) {
         $prefixedKey = $prefix.':'.$key;
         $this->statementKeyExists->bindValue(1, $prefixedKey);
@@ -77,6 +133,9 @@ class DBAL extends AbstractStorage {
         $statementIncrement->execute();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $prefixedKeys = array_map(function($key) use ($prefix) {
             return $prefix.':'.$key;

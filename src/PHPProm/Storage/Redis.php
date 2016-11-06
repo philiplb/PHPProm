@@ -11,11 +11,35 @@
 
 namespace PHPProm\Storage;
 
+/**
+ * Class Redis
+ * Storage implementation using Redis.
+ * @package PHPProm\Storage
+ */
 class Redis extends AbstractStorage {
 
+    /**
+     * @var \Redis
+     * The Redis connection.
+     */
     protected $redis;
 
+    /**
+     * Redis constructor.
+     *
+     * @param string $host
+     * the connection host
+     * @param null|string $password
+     * the password for authentication, null to ignore
+     * @param int $port
+     * the connection port, default 6379
+     * @param string $prefix
+     * the global key prefix to use, default 'PHPProm:'
+     * @param null|string $dbIndex
+     * the Redis DB index to use, null to ignore
+     */
     public function __construct($host, $password = null, $port = 6379, $prefix = 'PHPProm:', $dbIndex = null) {
+        parent::__construct();
         $this->redis = new \Redis();
         $this->redis->connect($host, $port);
         if ($password !== null) {
@@ -27,14 +51,23 @@ class Redis extends AbstractStorage {
         $this->redis->setOption(\Redis::OPT_PREFIX, $prefix);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function storeMeasurement($prefix, $key, $value) {
         $this->redis->set($prefix.':'.$key, $value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function incrementMeasurement($prefix, $key) {
         $this->redis->incr($prefix.':'.$key);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         $prefixedKeys = array_map(function($key) use ($prefix) {

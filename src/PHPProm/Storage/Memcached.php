@@ -11,22 +11,52 @@
 
 namespace PHPProm\Storage;
 
+/**
+ * Class Memcached
+ * Storage implementation using memcached.
+ * @package PHPProm\Storage
+ */
 class Memcached extends AbstractStorage {
 
+    /**
+     * @var \Memcached
+     * The memcached connection.
+     */
     protected $memcached;
 
+    /**
+     * @var string
+     * The global key prefix.
+     */
     protected $prefix;
 
-    public function __construct($host, $port = 11211, $prefix = 'PHPProm:', $weight = 0) {
+    /**
+     * Memcached constructor.
+     *
+     * @param $host
+     * the connection host
+     * @param int $port
+     * the connection port, default 11211
+     * @param string $prefix
+     * the global key prefix to use, default 'PHPProm:'
+     */
+    public function __construct($host, $port = 11211, $prefix = 'PHPProm:') {
+        parent::__construct();
         $this->memcached = new \Memcached();
-        $this->memcached->addServer($host, $port, $weight);
+        $this->memcached->addServer($host, $port);
         $this->prefix = $prefix;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function storeMeasurement($prefix, $key, $value) {
         $this->memcached->set($this->prefix.$prefix.':'.$key, $value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function incrementMeasurement($prefix, $key) {
         // Increment doesn't work on older versions, see
         // https://github.com/php-memcached-dev/php-memcached/issues/133
@@ -38,6 +68,9 @@ class Memcached extends AbstractStorage {
         $this->storeMeasurement($prefix, $key, $value);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         foreach ($keys as $key) {

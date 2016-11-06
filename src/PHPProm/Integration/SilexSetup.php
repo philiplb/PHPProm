@@ -18,8 +18,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Silex\Application;
 
+/**
+ * Class SilexSetup
+ * Setups Silex applications to measure:
+ * - the time of each route
+ * - the used memory of each route
+ * - the amount of requests of each route
+ * It also offers an function to be used for a Prometheus scrapable endpoint.
+ * @package PHPProm\Integration
+ */
 class SilexSetup {
 
+    /**
+     * Sets up the Silex middlewares where the actual measurements happen.
+     *
+     * @param Application $app
+     * the Silex application
+     * @param AbstractStorage $storage
+     * the storage for the measurements
+     */
     protected function setupMiddleware(Application $app, AbstractStorage $storage) {
 
         $storage->addAvailableMetric('time', 'route_time', 'name', 'request times per route in seconds', 'gauge', 'Nan');
@@ -41,6 +58,18 @@ class SilexSetup {
 
     }
 
+    /**
+     * Sets up the Silex middlewares where the actual measurements happen
+     * and returns a function to be used for a Prometheus scrapable endpoint.
+     *
+     * @param Application $app
+     * the Silex application
+     * @param AbstractStorage $storage
+     * the storage for the measurements
+     *
+     * @return \Closure
+     * the function to be used for a Prometheus scrapable endpoint
+     */
     public function setupAndGetMetricsRoute(Application $app, AbstractStorage $storage) {
 
         $this->setupMiddleware($app, $storage);

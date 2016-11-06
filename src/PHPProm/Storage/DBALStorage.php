@@ -77,7 +77,7 @@ class DBALStorage extends AbstractStorage {
             ->setParameter(1, $prefixedKeys, Connection::PARAM_STR_ARRAY)
         ;
         $measurements = [];
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $measurements[$key] = 'Nan';
         }
         $rows = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);

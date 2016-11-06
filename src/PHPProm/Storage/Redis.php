@@ -31,6 +31,10 @@ class Redis implements StorageInterface {
         $this->redis->set($prefix.':'.$key, $value);
     }
 
+    public function incrementMeasurement($prefix, $key) {
+        $this->redis->incr($prefix.':'.$key);
+    }
+
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         $prefixedKeys = array_map(function($key) use ($prefix) {

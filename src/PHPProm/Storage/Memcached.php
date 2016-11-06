@@ -27,6 +27,10 @@ class Memcached implements StorageInterface {
         $this->memcached->set($this->prefix.$prefix.':'.$key, $value);
     }
 
+    public function incrementMeasurement($prefix, $key) {
+        $this->memcached->increment($this->prefix.$prefix.':'.$key);
+    }
+
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         $prefixedKeys = array_map(function($key) use ($prefix) {

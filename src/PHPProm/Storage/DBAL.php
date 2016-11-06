@@ -29,31 +29,19 @@ class DBAL extends AbstractStorage {
 
     protected function buildStatements() {
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->select('COUNT(`key`) AS amount')
-            ->from('`'.$this->table.'`')
-            ->where('`key` = ?')
-        ;
+            ->select('COUNT(`key`) AS amount')->from('`'.$this->table.'`')->where('`key` = ?');
         $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->insert('`'.$this->table.'`')
-            ->setValue('`value`', '?')
-            ->setValue('`key`', '?')
-        ;
+            ->insert('`'.$this->table.'`')->setValue('`value`', '?')->setValue('`key`', '?');
         $this->statementKeyInsert = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->update('`'.$this->table.'`')
-            ->set('`value`', '?')
-            ->where('`key` = ?')
-        ;
+            ->update('`'.$this->table.'`')->set('`value`', '?')->where('`key` = ?');
         $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder           = $this->connection->createQueryBuilder()
-            ->update('`'.$this->table.'`')
-            ->set('`value`', '`value` + 1')
-            ->where('`key` = ?')
-        ;
+            ->update('`'.$this->table.'`')->set('`value`', '`value` + 1')->where('`key` = ?');
         $this->statementKeyIncr = $this->connection->prepare($queryBuilder->getSQL());
     }
 

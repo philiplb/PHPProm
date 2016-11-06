@@ -33,6 +33,9 @@ class Memcached implements StorageInterface {
 
     public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
+        foreach ($keys as $key) {
+            $measurements[$key] = $defaultValue;
+        }
         $prefixedKeys = array_map(function($key) use ($prefix) {
             return $this->prefix.$prefix.':'.$key;
         }, $keys);

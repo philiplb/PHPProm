@@ -11,7 +11,7 @@
 
 namespace PHPProm;
 
-use PHPProm\Storage\AbstractStorage;
+use PHPProm\Storage\StorageInterface;
 
 class StopWatch {
 
@@ -19,7 +19,7 @@ class StopWatch {
 
     protected $start;
 
-    public function __construct(AbstractStorage $storage) {
+    public function __construct(StorageInterface $storage) {
         $this->storage = $storage;
     }
 

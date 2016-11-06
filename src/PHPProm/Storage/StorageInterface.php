@@ -11,10 +11,10 @@
 
 namespace PHPProm\Storage;
 
-abstract class AbstractStorage {
+interface StorageInterface {
 
-    abstract public function storeMeasurement($prefix, $key, $value);
+    public function storeMeasurement($prefix, $key, $value);
 
-    abstract public function getMeasurements($prefix, array $keys);
+    public function getMeasurements($prefix, array $keys);
 
 }

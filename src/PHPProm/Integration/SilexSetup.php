@@ -13,14 +13,14 @@ namespace PHPProm\Integration;
 
 use PHPProm\PrometheusExport;
 use PHPProm\StopWatch;
-use PHPProm\Storage\AbstractStorage;
+use PHPProm\Storage\StorageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Silex\Application;
 
 class SilexSetup {
 
-    protected function setupMiddleware(Application $app, AbstractStorage $storage) {
+    protected function setupMiddleware(Application $app, StorageInterface $storage) {
 
         $routeTime = new StopWatch($storage);
 
@@ -36,7 +36,7 @@ class SilexSetup {
 
     }
 
-    public function setupAndGetMetricsRoute(Application $app, AbstractStorage $storage) {
+    public function setupAndGetMetricsRoute(Application $app, StorageInterface $storage) {
 
         $this->setupMiddleware($app, $storage);
 

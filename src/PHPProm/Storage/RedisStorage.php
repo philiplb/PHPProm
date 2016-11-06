@@ -11,7 +11,7 @@
 
 namespace PHPProm\Storage;
 
-class RedisStorage extends AbstractStorage {
+class RedisStorage implements StorageInterface {
 
     protected $redis;
 

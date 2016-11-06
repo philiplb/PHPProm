@@ -25,10 +25,7 @@ class DBALStorage extends AbstractStorage {
 
     protected $statementKeyUpdate;
 
-    public function __construct(Connection $connection, $table = 'phpprom') {
-        $this->connection = $connection;
-        $this->table      = $table;
-
+    protected function buildStatements() {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select('COUNT(`key`) AS amount')
@@ -52,6 +49,12 @@ class DBALStorage extends AbstractStorage {
             ->where('`key` = ?')
         ;
         $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
+    }
+
+    public function __construct(Connection $connection, $table = 'phpprom') {
+        $this->connection = $connection;
+        $this->table      = $table;
+        $this->buildStatements();
     }
 
     public function storeMeasurement($prefix, $key, $value) {

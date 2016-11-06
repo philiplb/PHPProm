@@ -53,7 +53,7 @@ class SilexSetup {
                     $routes[] = $method.$path;
                 }
             }
-            $export = new PrometheusExport();
+            $export   = new PrometheusExport();
             $response = $export->getExport($storage, $routes);
             return new Response($response, 200, ['Content-Type' => 'text/plain; version=0.0.4']);
         };

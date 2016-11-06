@@ -47,7 +47,7 @@ class Memcached extends AbstractStorage {
             return $this->prefix.$prefix.':'.$key;
         }, $keys);
         foreach ($this->memcached->getMulti($prefixedKeys) as $key => $value) {
-            $unprefixedKey = substr($key, strlen($this->prefix) + strlen($prefix) + 1);
+            $unprefixedKey                = substr($key, strlen($this->prefix) + strlen($prefix) + 1);
             $measurements[$unprefixedKey] = $value !== false ? (float)$value : $defaultValue;
         }
         return $measurements;

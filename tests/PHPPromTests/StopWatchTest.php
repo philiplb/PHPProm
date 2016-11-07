@@ -14,7 +14,7 @@ namespace PHPPromTests;
 use Eloquent\Phony\Phpunit\Phony;
 use PHPProm\StopWatch;
 
-class StopWatchTest extends \PHPUnit_Framework_TestCase{
+class StopWatchTest extends \PHPUnit_Framework_TestCase {
 
     public function testStartStop() {
         $storageHandle = Phony::mock('\\PHPProm\\Storage\\AbstractStorage');

@@ -16,6 +16,9 @@
             "dev-master": "0.1.x-dev"
         }
     },
+    "require": {
+        "php": ">=5.5"
+    },
     "require-dev": {
         "sami/sami": "^3.3",
         "phpunit/phpunit": "^4.8",

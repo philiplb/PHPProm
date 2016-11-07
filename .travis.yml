@@ -8,6 +8,8 @@
 #
 
 language: php
+services:
+    - memcached
 before_script:
     - composer install
 script: vendor/bin/phpunit

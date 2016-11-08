@@ -11,6 +11,7 @@ language: php
 services:
     - memcached
 before_script:
+    - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - composer install
 script: vendor/bin/phpunit
 php:

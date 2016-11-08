@@ -17,7 +17,7 @@ class MemcachedTest extends AbstractStorageTest {
     }
 
     protected function getRawKey($key) {
-        return $this->memcached->get($key);
+        return $this->memcached->get('PHPProm:'.$key);
     }
 
 }

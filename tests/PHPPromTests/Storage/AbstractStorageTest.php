@@ -10,18 +10,18 @@ abstract class AbstractStorageTest extends \PHPUnit_Framework_TestCase {
 
     public function testStoreMeasurement() {
         $this->storage->storeMeasurement('prefix', 'key', 42);
-        $read = $this->getRawKey('PHPProm:prefix:key');
+        $read = $this->getRawKey('prefix:key');
         $expected = 42;
         $this->assertSame($expected, $read);
     }
 
     public function testIncrementMeasurement() {
         $this->storage->incrementMeasurement('prefix', 'incrementKey');
-        $read = $this->getRawKey('PHPProm:prefix:incrementKey');
+        $read = $this->getRawKey('prefix:incrementKey');
         $expected = 1;
         $this->assertSame($expected, $read);
         $this->storage->incrementMeasurement('prefix', 'incrementKey');
-        $read = $this->getRawKey('PHPProm:prefix:incrementKey');
+        $read = $this->getRawKey('prefix:incrementKey');
         $expected = 2;
         $this->assertSame($expected, $read);
 

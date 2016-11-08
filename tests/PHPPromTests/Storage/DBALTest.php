@@ -29,7 +29,7 @@ class DBALTest extends AbstractStorageTest {
 
     protected function getRawKey($key) {
         $sql = 'SELECT `value` FROM phpprom WHERE `key` = ?';
-        $result = $this->database->fetchAssoc($sql, [substr($key, strlen('PHPProm:'))]);
+        $result = $this->database->fetchAssoc($sql, [$key]);
         return (int)$result['value'];
     }
 

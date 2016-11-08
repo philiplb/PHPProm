@@ -18,7 +18,7 @@ class RedisTest extends AbstractStorageTest {
     }
 
     protected function getRawKey($key) {
-        return (int)$this->redis->get(substr($key, strlen('PHPProm:')));
+        return (int)$this->redis->get($key);
     }
 
 }

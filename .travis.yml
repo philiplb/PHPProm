@@ -11,9 +11,11 @@ language: php
 services:
     - memcached
     - redis-server
+    - mysql
 before_script:
     - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - mysql -e 'CREATE DATABASE phppromtest;'
     - composer install
 script: vendor/bin/phpunit
 php:

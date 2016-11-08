@@ -23,6 +23,7 @@
         "sami/sami": "^3.3",
         "phpunit/phpunit": "^4.8",
         "eloquent/phony": "^0.14.1",
-        "satooshi/php-coveralls": "1.0.1"
+        "satooshi/php-coveralls": "1.0.1",
+        "doctrine/dbal": "^2.5"
     }
 }

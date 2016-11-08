@@ -42,25 +42,25 @@ class DBAL extends AbstractStorage {
     protected $table;
 
     /**
-     * @var \Doctrine\DBAL\DBALException
+     * @var \Doctrine\DBAL\Driver\Statement
      * The prepared statement to check whether there is already a value for a given key.
      */
     protected $statementKeyExists;
 
     /**
-     * @var \Doctrine\DBAL\DBALException
+     * @var \Doctrine\DBAL\Driver\Statement
      * The prepared statement to insert a new key value pair.
      */
     protected $statementKeyInsert;
 
     /**
-     * @var \Doctrine\DBAL\DBALException
+     * @var \Doctrine\DBAL\Driver\Statement
      * The prepared statement to update the value of an existing key.
      */
     protected $statementKeyUpdate;
 
     /**
-     * @var \Doctrine\DBAL\DBALException
+     * @var \Doctrine\DBAL\Driver\Statement
      * The prepared statement to increment the value of the given key.
      */
     protected $statementKeyIncr;

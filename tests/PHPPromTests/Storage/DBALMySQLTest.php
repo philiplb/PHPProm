@@ -13,7 +13,7 @@ namespace PHPPromTests\Storage;
 
 use PHPProm\Storage\DBAL;
 
-class DBALTest extends AbstractStorageTest {
+class DBALMySQLTest extends AbstractStorageTest {
 
     protected $database;
 

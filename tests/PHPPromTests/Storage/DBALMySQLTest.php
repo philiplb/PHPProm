@@ -13,9 +13,7 @@ namespace PHPPromTests\Storage;
 
 use PHPProm\Storage\DBAL;
 
-class DBALMySQLTest extends AbstractStorageTest {
-
-    protected $database;
+class DBALMySQLTest extends AbstractDBALTest {
 
     protected function setUp() {
         $config = new \Doctrine\DBAL\Configuration();
@@ -34,12 +32,6 @@ class DBALMySQLTest extends AbstractStorageTest {
         $this->database->executeUpdate($sql);
 
         $this->storage = new DBAL($this->database);
-    }
-
-    protected function getRawKey($key) {
-        $sql = 'SELECT `value` FROM phpprom WHERE `key` = ?';
-        $result = $this->database->fetchAssoc($sql, [$key]);
-        return (int)$result['value'];
     }
 
 }

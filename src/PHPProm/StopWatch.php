@@ -51,14 +51,14 @@ class StopWatch {
     /**+
      * To stop and store the measurement as float seconds.
      *
-     * @param string $prefix
-     * the key prefix by which the measurements will be retrieved from the storage
+     * @param string $name
+     * the name of the metric
      * @param string $key
      * the key
      */
-    public function stop($prefix, $key) {
+    public function stop($name, $key) {
         $time = microtime(true) - $this->start;
-        $this->storage->storeMeasurement($prefix, $key, $time);
+        $this->storage->storeMeasurement($name, $key, $time);
     }
 
 }

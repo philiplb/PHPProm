@@ -104,8 +104,8 @@ class DBAL extends AbstractStorage {
     /**
      * {@inheritdoc}
      */
-    public function storeMeasurement($prefix, $key, $value) {
-        $prefixedKey = $prefix.':'.$key;
+    public function storeMeasurement($metric, $key, $value) {
+        $prefixedKey = $metric.':'.$key;
         $this->statementKeyExists->bindValue(1, $prefixedKey);
         $this->statementKeyExists->execute();
         $exists         = $this->statementKeyExists->fetch(\PDO::FETCH_ASSOC);
@@ -118,8 +118,8 @@ class DBAL extends AbstractStorage {
     /**
      * {@inheritdoc}
      */
-    public function incrementMeasurement($prefix, $key) {
-        $prefixedKey = $prefix.':'.$key;
+    public function incrementMeasurement($metric, $key) {
+        $prefixedKey = $metric.':'.$key;
         $this->statementKeyExists->bindValue(1, $prefixedKey);
         $this->statementKeyExists->execute();
         $exists             = $this->statementKeyExists->fetch(\PDO::FETCH_ASSOC);
@@ -136,9 +136,9 @@ class DBAL extends AbstractStorage {
     /**
      * {@inheritdoc}
      */
-    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
-        $prefixedKeys = array_map(function($key) use ($prefix) {
-            return $prefix.':'.$key;
+    public function getMeasurements($metric, array $keys, $defaultValue = 'Nan') {
+        $prefixedKeys = array_map(function($key) use ($metric) {
+            return $metric.':'.$key;
         }, $keys);
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
@@ -153,7 +153,7 @@ class DBAL extends AbstractStorage {
         }
         $rows = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($rows as $row) {
-            $unprefixedKey                = substr($row['key'], strlen($prefix) + 1);
+            $unprefixedKey                = substr($row['key'], strlen($metric) + 1);
             $measurements[$unprefixedKey] = (float)$row['value'];
         }
         return $measurements;

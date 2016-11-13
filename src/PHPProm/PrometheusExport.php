@@ -81,7 +81,7 @@ class PrometheusExport {
     public function getExport(AbstractStorage $storage, $keys) {
         $export = '';
         foreach ($storage->getAvailableMetrics() as $availableMetric) {
-            $measurements = $storage->getMeasurements($availableMetric['storagePrefix'], $keys, $availableMetric['defaultValue']);
+            $measurements = $storage->getMeasurements($availableMetric['metric'], $keys, $availableMetric['defaultValue']);
             $export      .= $this->getMetric($availableMetric['metric'], $availableMetric['label'], $measurements, $availableMetric['help'], $availableMetric['type']);
         }
         return $export;

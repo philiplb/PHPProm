@@ -54,24 +54,24 @@ class Redis extends AbstractStorage {
     /**
      * {@inheritdoc}
      */
-    public function storeMeasurement($prefix, $key, $value) {
-        $this->redis->set($prefix.':'.$key, $value);
+    public function storeMeasurement($metric, $key, $value) {
+        $this->redis->set($metric.':'.$key, $value);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function incrementMeasurement($prefix, $key) {
-        $this->redis->incr($prefix.':'.$key);
+    public function incrementMeasurement($metric, $key) {
+        $this->redis->incr($metric.':'.$key);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
+    public function getMeasurements($metric, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
-        $prefixedKeys = array_map(function($key) use ($prefix) {
-            return $prefix.':'.$key;
+        $prefixedKeys = array_map(function($key) use ($metric) {
+            return $metric.':'.$key;
         }, $keys);
         foreach ($this->redis->mget($prefixedKeys) as $i => $value) {
             $measurements[$keys[$i]] = $value !== false ? (float)$value : $defaultValue;

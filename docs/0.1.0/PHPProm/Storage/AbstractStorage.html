@@ -110,7 +110,7 @@ The parent class of all storage implementations.</p>                    </div>
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_addAvailableMetric">addAvailableMetric</a>(string $storagePrefix, string $metric, string $label, string $help, string $type, string $defaultValue)
+                    <a href="#method_addAvailableMetric">addAvailableMetric</a>(string $metric, string $label, string $help, string $type, string $defaultValue)
         
                                             <p>Adds a metric to the available ones.</p>                </div>
                 <div class="col-md-2"></div>
@@ -130,7 +130,7 @@ The parent class of all storage implementations.</p>                    </div>
                     void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_storeMeasurement">storeMeasurement</a>(string $prefix, string $key, float $value)
+                    <a href="#method_storeMeasurement">storeMeasurement</a>(string $metric, string $key, float $value)
         
                                             <p>Stores a measurement.</p>                </div>
                 <div class="col-md-2"></div>
@@ -140,7 +140,7 @@ The parent class of all storage implementations.</p>                    </div>
                     void
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_incrementMeasurement">incrementMeasurement</a>(string $prefix, string $key)
+                    <a href="#method_incrementMeasurement">incrementMeasurement</a>(string $metric, string $key)
         
                                             <p>Increments a measurement, starting with 1 if it doesn't exist yet.</p>                </div>
                 <div class="col-md-2"></div>
@@ -150,7 +150,7 @@ The parent class of all storage implementations.</p>                    </div>
                     array
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_getMeasurements">getMeasurements</a>(string $prefix, array $keys, string $defaultValue = &#039;Nan&#039;)
+                    <a href="#method_getMeasurements">getMeasurements</a>(string $metric, array $keys, string $defaultValue = &#039;Nan&#039;)
         
                                             <p>Gets all measurements.</p>                </div>
                 <div class="col-md-2"></div>
@@ -184,9 +184,9 @@ The parent class of all storage implementations.</p>                    </div>
             </div>
                     <div class="method-item">
                     <h3 id="method_addAvailableMetric">
-        <div class="location">at line         line 50</div>
+        <div class="location">at line         line 48</div>
         <code>                    
-    <strong>addAvailableMetric</strong>(string $storagePrefix, string $metric, string $label, string $help, string $type, string $defaultValue)
+    <strong>addAvailableMetric</strong>(string $metric, string $label, string $help, string $type, string $defaultValue)
         </code>
     </h3>
     <div class="details">
@@ -201,14 +201,8 @@ The parent class of all storage implementations.</p>                    </div>
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$storagePrefix</td>
-                <td>s$storagePrefix
-the prefix for the stored metric key</td>
-            </tr>
-                    <tr>
-                <td>string</td>
                 <td>$metric</td>
-                <td>the metric itself</td>
+                <td>the metric itself as delivered by Prometheus</td>
             </tr>
                     <tr>
                 <td>string</td>
@@ -241,7 +235,7 @@ the prefix for the stored metric key</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_getAvailableMetrics">
-        <div class="location">at line         line 67</div>
+        <div class="location">at line         line 64</div>
         <code>                    array
     <strong>getAvailableMetrics</strong>()
         </code>
@@ -271,9 +265,9 @@ the prefix for the stored metric key</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_storeMeasurement">
-        <div class="location">at line         line 82</div>
+        <div class="location">at line         line 79</div>
         <code>    abstract                void
-    <strong>storeMeasurement</strong>(string $prefix, string $key, float $value)
+    <strong>storeMeasurement</strong>(string $metric, string $key, float $value)
         </code>
     </h3>
     <div class="details">
@@ -288,8 +282,8 @@ the prefix for the stored metric key</td>
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$prefix</td>
-                <td>the key prefix by which the measurements will be retrieved from the storage</td>
+                <td>$metric</td>
+                <td>the name of the metric</td>
             </tr>
                     <tr>
                 <td>string</td>
@@ -321,9 +315,9 @@ the prefix for the stored metric key</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_incrementMeasurement">
-        <div class="location">at line         line 92</div>
+        <div class="location">at line         line 89</div>
         <code>    abstract                void
-    <strong>incrementMeasurement</strong>(string $prefix, string $key)
+    <strong>incrementMeasurement</strong>(string $metric, string $key)
         </code>
     </h3>
     <div class="details">
@@ -338,8 +332,8 @@ the prefix for the stored metric key</td>
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$prefix</td>
-                <td>the key prefix by which the measurements will be retrieved from the storage</td>
+                <td>$metric</td>
+                <td>the name of the metric</td>
             </tr>
                     <tr>
                 <td>string</td>
@@ -366,9 +360,9 @@ the prefix for the stored metric key</td>
             </div>
                     <div class="method-item">
                     <h3 id="method_getMeasurements">
-        <div class="location">at line         line 106</div>
+        <div class="location">at line         line 103</div>
         <code>    abstract                array
-    <strong>getMeasurements</strong>(string $prefix, array $keys, string $defaultValue = &#039;Nan&#039;)
+    <strong>getMeasurements</strong>(string $metric, array $keys, string $defaultValue = &#039;Nan&#039;)
         </code>
     </h3>
     <div class="details">
@@ -383,8 +377,8 @@ the prefix for the stored metric key</td>
                     <table class="table table-condensed">
                     <tr>
                 <td>string</td>
-                <td>$prefix</td>
-                <td>the key prefix by which the measurements will be retrieved from the storage</td>
+                <td>$metric</td>
+                <td>the name of the metric</td>
             </tr>
                     <tr>
                 <td>array</td>

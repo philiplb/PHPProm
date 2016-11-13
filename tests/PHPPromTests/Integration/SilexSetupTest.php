@@ -19,15 +19,15 @@ class SilexSetupTest extends WebTestCase {
     protected function setUp() {
         parent::setUp();
         $keys = [
-            'PHPProm:time:GET_metrics',
-            'PHPProm:memory:GET_metrics',
-            'PHPProm:requests_total:GET_metrics',
-            'PHPProm:time:GET_test1',
-            'PHPProm:memory:GET_test1',
-            'PHPProm:requests_total:GET_test1',
-            'PHPProm:time:GET_test2',
-            'PHPProm:memory:GET_test2',
-            'PHPProm:requests_total:GET_test2'
+            'PHPProm:route_time:GET_metrics',
+            'PHPProm:route_memory:GET_metrics',
+            'PHPProm:route_requests_total:GET_metrics',
+            'PHPProm:route_time:GET_test1',
+            'PHPProm:route_memory:GET_test1',
+            'PHPProm:route_requests_total:GET_test1',
+            'PHPProm:route_time:GET_test2',
+            'PHPProm:route_memory:GET_test2',
+            'PHPProm:route_requests_total:GET_test2'
         ];
         $memcached = new \Memcached();
         $memcached->addServer('localhost', 11211);

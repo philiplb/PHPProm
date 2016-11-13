@@ -21,8 +21,8 @@ class MemcachedTest extends AbstractStorageTest {
         $this->storage = new Memcached('localhost');
         $this->memcached = new \Memcached();
         $this->memcached->addServer('localhost', 11211);
-        $this->memcached->delete('PHPProm:prefix:key');
-        $this->memcached->delete('PHPProm:prefix:incrementKey');
+        $this->memcached->delete('PHPProm:metric:key');
+        $this->memcached->delete('PHPProm:metric:incrementKey');
     }
 
     protected function getRawKey($key) {

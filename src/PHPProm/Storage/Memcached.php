@@ -50,37 +50,37 @@ class Memcached extends AbstractStorage {
     /**
      * {@inheritdoc}
      */
-    public function storeMeasurement($prefix, $key, $value) {
-        $this->memcached->set($this->prefix.$prefix.':'.$key, $value);
+    public function storeMeasurement($metric, $key, $value) {
+        $this->memcached->set($this->prefix.$metric.':'.$key, $value);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function incrementMeasurement($prefix, $key) {
+    public function incrementMeasurement($metric, $key) {
         // Increment doesn't work on older versions, see
         // https://github.com/php-memcached-dev/php-memcached/issues/133
-        $value = $this->memcached->get($this->prefix.$prefix.':'.$key);
+        $value = $this->memcached->get($this->prefix.$metric.':'.$key);
         if ($value === false) {
             $value = 0;
         }
         $value++;
-        $this->storeMeasurement($prefix, $key, $value);
+        $this->storeMeasurement($metric, $key, $value);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan') {
+    public function getMeasurements($metric, array $keys, $defaultValue = 'Nan') {
         $measurements = [];
         foreach ($keys as $key) {
             $measurements[$key] = $defaultValue;
         }
-        $prefixedKeys = array_map(function($key) use ($prefix) {
-            return $this->prefix.$prefix.':'.$key;
+        $prefixedKeys = array_map(function($key) use ($metric) {
+            return $this->prefix.$metric.':'.$key;
         }, $keys);
         foreach ($this->memcached->getMulti($prefixedKeys) as $key => $value) {
-            $unprefixedKey                = substr($key, strlen($this->prefix) + strlen($prefix) + 1);
+            $unprefixedKey                = substr($key, strlen($this->prefix) + strlen($metric) + 1);
             $measurements[$unprefixedKey] = $value !== false ? (float)$value : $defaultValue;
         }
         return $measurements;

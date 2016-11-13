@@ -39,9 +39,9 @@ class SilexSetup {
      */
     protected function setupMiddleware(Application $app, AbstractStorage $storage) {
 
-        $storage->addAvailableMetric('time', 'route_time', 'name', 'request times per route in seconds', 'gauge', 'Nan');
-        $storage->addAvailableMetric('memory', 'route_memory', 'name', 'request memory per route in bytes', 'gauge', 'Nan');
-        $storage->addAvailableMetric('requests_total', 'route_requests_total', 'name', 'total requests per route', 'counter', 0);
+        $storage->addAvailableMetric('route_time', 'name', 'request times per route in seconds', 'gauge', 'Nan');
+        $storage->addAvailableMetric('route_memory', 'name', 'request memory per route in bytes', 'gauge', 'Nan');
+        $storage->addAvailableMetric('route_requests_total', 'name', 'total requests per route', 'counter', 0);
 
         $routeTime = new StopWatch($storage);
 
@@ -51,9 +51,9 @@ class SilexSetup {
 
         $app->finish(function(Request $request) use ($routeTime, $storage) {
             $route = $request->get('_route');
-            $routeTime->stop('time', $route);
-            $storage->storeMeasurement('memory', $route, memory_get_peak_usage(true));
-            $storage->incrementMeasurement('requests_total', $route);
+            $routeTime->stop('route_time', $route);
+            $storage->storeMeasurement('route_memory', $route, memory_get_peak_usage(true));
+            $storage->incrementMeasurement('route_requests_total', $route);
         });
 
     }

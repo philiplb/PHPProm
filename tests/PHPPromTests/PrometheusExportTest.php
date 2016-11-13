@@ -21,7 +21,7 @@ class PrometheusExportTest extends \PHPUnit_Framework_TestCase {
         $storageHandle->getMeasurements->returns(['val1' => 1, 'val2' => 2]);
         $storageHandle->getAvailableMetrics->returns([
             [
-                'storagePrefix' => 'storagePrefix',
+                'name' => 'name',
                 'metric' => 'metric',
                 'label' => 'label',
                 'help' => 'help',

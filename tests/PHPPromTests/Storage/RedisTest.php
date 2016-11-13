@@ -22,8 +22,8 @@ class RedisTest extends AbstractStorageTest {
         $this->redis = new \Redis();
         $this->redis->connect('localhost');
         $this->redis->setOption(\Redis::OPT_PREFIX, 'PHPProm:');
-        $this->redis->delete('prefix:key');
-        $this->redis->delete('prefix:incrementKey');
+        $this->redis->delete('metric:key');
+        $this->redis->delete('metric:incrementKey');
     }
 
     protected function getRawKey($key) {

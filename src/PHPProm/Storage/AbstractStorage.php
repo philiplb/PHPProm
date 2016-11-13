@@ -34,10 +34,8 @@ abstract class AbstractStorage {
     /**
      * Adds a metric to the available ones.
      *
-     * @param string s$storagePrefix
-     * the prefix for the stored metric key
      * @param string $metric
-     * the metric itself
+     * the metric itself as delivered by Prometheus
      * @param string $label
      * the name of the one Prometheus label to categorize the values
      * @param string $help
@@ -47,9 +45,8 @@ abstract class AbstractStorage {
      * @param string $defaultValue
      * the default value which the metric gets if there is no value stored
      */
-    public function addAvailableMetric($storagePrefix, $metric, $label, $help, $type, $defaultValue) {
+    public function addAvailableMetric($metric, $label, $help, $type, $defaultValue) {
         $this->availableMetrics[] = [
-            'storagePrefix' => $storagePrefix,
             'metric' => $metric,
             'label' => $label,
             'help' => $help,
@@ -71,31 +68,31 @@ abstract class AbstractStorage {
     /**
      * Stores a measurement.
      *
-     * @param string $prefix
-     * the key prefix by which the measurements will be retrieved from the storage
+     * @param string $metric
+     * the name of the metric
      * @param string $key
      * the key
      * @param float $value
      * the value
      * @return void
      */
-    abstract public function storeMeasurement($prefix, $key, $value);
+    abstract public function storeMeasurement($metric, $key, $value);
 
     /**
      * Increments a measurement, starting with 1 if it doesn't exist yet.
-     * @param string $prefix
-     * the key prefix by which the measurements will be retrieved from the storage
+     * @param string $metric
+     * the name of the metric
      * @param string $key
      * the key
      * @return void
      */
-    abstract public function incrementMeasurement($prefix, $key);
+    abstract public function incrementMeasurement($metric, $key);
 
     /**
      * Gets all measurements.
      *
-     * @param string $prefix
-     * the key prefix by which the measurements will be retrieved from the storage
+     * @param string $metric
+     * the name of the metric
      * @param array $keys
      * the keys to retrieve
      * @param string $defaultValue
@@ -103,6 +100,6 @@ abstract class AbstractStorage {
      * @return array
      * the map with the keys and values
      */
-    abstract public function getMeasurements($prefix, array $keys, $defaultValue = 'Nan');
+    abstract public function getMeasurements($metric, array $keys, $defaultValue = 'Nan');
 
 }

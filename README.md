@@ -180,9 +180,9 @@ over time for example which should not be lost.
 
 The DBAL storage implementation needs to have the package
 "doctrine/dbal" and the prerequisites of the used driver must be
-fullfilled. Currently, the MySQL driver has been tested. But the SQL
-statements have been kept simple in order to be compatible with many
-of the DBAL supported databases.
+fullfilled. Currently, the MySQL and SQLite drivers have been tested.
+But the SQL statements have been kept simple in order to be compatible
+with many of the DBAL supported databases.
 
 Its constructor takes the following parameters:
 
@@ -197,6 +197,16 @@ The MySQL scheme of the table is:
      `value` double NOT NULL,
      PRIMARY KEY (`key`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+The SQLite scheme of the table is:
+
+```SQL
+CREATE TABLE `phpprom` (
+	`key`	TEXT NOT NULL UNIQUE,
+	`value`	REAL NOT NULL,
+	PRIMARY KEY(`key`)
+);
 ```
 
 This one is possibly the slowest one, but offers a secure data storage

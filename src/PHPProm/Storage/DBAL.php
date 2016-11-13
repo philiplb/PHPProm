@@ -19,6 +19,7 @@ use \Doctrine\DBAL\Connection;
  * This way, MySQL and other databases are supported.
  * The used SQL is kept very simple so the queries should work
  * with most of the DBAL supported databases.
+ *
  * A MySQL example of the expected table:
  * CREATE TABLE `phpprom` (
  *     `key` varchar(255) NOT NULL,
@@ -26,6 +27,13 @@ use \Doctrine\DBAL\Connection;
  *     PRIMARY KEY (`key`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  * @package PHPProm\Storage
+ *
+ * A SQLite example of the expected table:
+ * CREATE TABLE `phpprom` (
+ *     `key`	TEXT NOT NULL UNIQUE,
+ *     `value`	REAL NOT NULL,
+ *     PRIMARY KEY(`key`)
+ * );
  */
 class DBAL extends AbstractStorage {
 

@@ -89,8 +89,9 @@
             <p>Class DBAL
 Storage implementation using Doctrine DBAL.</p>            <p>This way, MySQL and other databases are supported.
 The used SQL is kept very simple so the queries should work
-with most of the DBAL supported databases.
-A MySQL example of the expected table:
+with most of the DBAL supported databases.</p>
+
+<p>A MySQL example of the expected table:
 CREATE TABLE <code>phpprom</code> (
     <code>key</code> varchar(255) NOT NULL,
     <code>value</code> double NOT NULL,
@@ -171,7 +172,7 @@ CREATE TABLE <code>phpprom</code> (
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at line         line 97</div>
+        <div class="location">at line         line 105</div>
         <code>                    
     <strong>__construct</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, string $table = &#039;phpprom&#039;)
         </code>
@@ -288,7 +289,7 @@ CREATE TABLE <code>phpprom</code> (
             </div>
                     <div class="method-item">
                     <h3 id="method_storeMeasurement">
-        <div class="location">at line         line 107</div>
+        <div class="location">at line         line 115</div>
         <code>                    void
     <strong>storeMeasurement</strong>(string $metric, string $key, float $value)
         </code>
@@ -338,7 +339,7 @@ CREATE TABLE <code>phpprom</code> (
             </div>
                     <div class="method-item">
                     <h3 id="method_incrementMeasurement">
-        <div class="location">at line         line 121</div>
+        <div class="location">at line         line 129</div>
         <code>                    void
     <strong>incrementMeasurement</strong>(string $metric, string $key)
         </code>
@@ -383,7 +384,7 @@ CREATE TABLE <code>phpprom</code> (
             </div>
                     <div class="method-item">
                     <h3 id="method_getMeasurements">
-        <div class="location">at line         line 139</div>
+        <div class="location">at line         line 147</div>
         <code>                    array
     <strong>getMeasurements</strong>(string $metric, array $keys, string $defaultValue = &#039;Nan&#039;)
         </code>

@@ -1,6 +1,9 @@
 {
     "name": "philiplb/phpprom",
     "type": "library",
+    "description": "PHPProm is a library to measure some performance relevant metrics and expose them for Prometheus",
+    "keywords": ["silex", "performance measurement", "prometheus"],
+    "homepage": "https://github.com/philiplb/PHPProm",
     "license": "MIT",
     "authors": [
         {

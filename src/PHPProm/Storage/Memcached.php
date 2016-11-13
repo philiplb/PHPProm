@@ -33,7 +33,7 @@ class Memcached extends AbstractStorage {
     /**
      * Memcached constructor.
      *
-     * @param $host
+     * @param string $host
      * the connection host
      * @param int $port
      * the connection port, default 11211

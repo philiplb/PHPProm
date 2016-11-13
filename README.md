@@ -214,6 +214,7 @@ you can inherit your implementation from _PHPProm\Storage\AbstractStorage_ and i
 - _abstract public function getMeasurements($metric, array $keys, $defaultValue = 'Nan'):_
   Gets all measurements.
 
+New storage implementations would make a good pull request again. :)
 
 ## Status
 

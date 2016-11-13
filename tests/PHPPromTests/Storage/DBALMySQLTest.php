@@ -16,11 +16,10 @@ use PHPProm\Storage\DBAL;
 class DBALMySQLTest extends AbstractDBALTest {
 
     protected function setUp() {
-        $config = new \Doctrine\DBAL\Configuration();
         $connectionParams = array(
             'url' => 'mysql://root:@localhost/phppromtest',
         );
-        $this->database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $this->connectToDatabase($connectionParams);
 
         $sql = 'DROP TABLE IF EXISTS `phpprom`';
         $this->database->executeUpdate($sql);

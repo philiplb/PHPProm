@@ -16,11 +16,10 @@ use PHPProm\Storage\DBAL;
 class DBALSQLiteTest extends AbstractDBALTest {
 
     protected function setUp() {
-        $config = new \Doctrine\DBAL\Configuration();
         $connectionParams = array(
             'url' => 'sqlite:///:memory:',
         );
-        $this->database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $this->connectToDatabase($connectionParams);
 
         $sql = 'DROP TABLE IF EXISTS `phpprom`';
         $this->database->executeUpdate($sql);

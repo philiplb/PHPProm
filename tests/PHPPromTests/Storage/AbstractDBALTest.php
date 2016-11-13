@@ -15,6 +15,11 @@ abstract class AbstractDBALTest extends AbstractStorageTest {
 
     protected $database;
 
+    protected function connectToDatabase($connectionParams) {
+        $config = new \Doctrine\DBAL\Configuration();
+        $this->database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+    }
+
     protected function getRawKey($key) {
         $sql = 'SELECT `value` FROM phpprom WHERE `key` = ?';
         $result = $this->database->fetchAssoc($sql, [$key]);

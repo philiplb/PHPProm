@@ -180,9 +180,10 @@ over time for example which should not be lost.
 
 The DBAL storage implementation needs to have the package
 "doctrine/dbal" and the prerequisites of the used driver must be
-fullfilled. Currently, the MySQL and SQLite drivers have been tested.
-But the SQL statements have been kept simple in order to be compatible
-with many of the DBAL supported databases.
+fullfilled. Currently, the MySQL, PostgreSQL and SQLite drivers have
+been tested. But the SQL statements have been kept simple in order to
+be compatible with many of the DBAL supported databases. Give me a
+shout if you find something not working.
 
 Its constructor takes the following parameters:
 
@@ -207,6 +208,16 @@ CREATE TABLE `phpprom` (
 	`value`	REAL NOT NULL,
 	PRIMARY KEY(`key`)
 );
+```
+
+The PostgreSQL scheme of the table is:
+
+```SQL
+CREATE TABLE public.phpprom (
+    key VARCHAR(255) PRIMARY KEY NOT NULL,
+    value DOUBLE PRECISION NOT NULL
+);
+CREATE UNIQUE INDEX phpprom_key_uindex ON public.phpprom (key);
 ```
 
 This one is possibly the slowest one, but offers a secure data storage

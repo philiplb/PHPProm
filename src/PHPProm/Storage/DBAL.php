@@ -34,6 +34,13 @@ use \Doctrine\DBAL\Connection;
  *     `value`	REAL NOT NULL,
  *     PRIMARY KEY(`key`)
  * );
+ *
+ * A PostgreSQL example of the expected table:
+ * CREATE TABLE public.phpprom (
+ *     key VARCHAR(255) PRIMARY KEY NOT NULL,
+ *     value DOUBLE PRECISION NOT NULL
+ * );
+ * CREATE UNIQUE INDEX phpprom_key_uindex ON public.phpprom (key);
  */
 class DBAL extends AbstractStorage {
 
@@ -74,23 +81,29 @@ class DBAL extends AbstractStorage {
     protected $statementKeyIncr;
 
     /**
+     * @var string
+     * the sign to use to escape names
+     */
+    protected $esc;
+
+    /**
      * Builds the prepared statements.
      */
     protected function buildStatements() {
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->select('COUNT(`key`) AS amount')->from('`'.$this->table.'`')->where('`key` = ?');
+            ->select('COUNT('.$this->esc.'key'.$this->esc.') AS amount')->from($this->esc.$this->table.$this->esc)->where(''.$this->esc.'key'.$this->esc.' = ?');
         $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->insert('`'.$this->table.'`')->setValue('`value`', '?')->setValue('`key`', '?');
+            ->insert($this->esc.$this->table.$this->esc)->setValue($this->esc.'value'.$this->esc, '?')->setValue(''.$this->esc.'key'.$this->esc.'', '?');
         $this->statementKeyInsert = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->update('`'.$this->table.'`')->set('`value`', '?')->where('`key` = ?');
+            ->update($this->esc.$this->table.$this->esc)->set($this->esc.'value'.$this->esc, '?')->where($this->esc.'key'.$this->esc.' = ?');
         $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder           = $this->connection->createQueryBuilder()
-            ->update('`'.$this->table.'`')->set('`value`', '`value` + 1')->where('`key` = ?');
+            ->update($this->esc.$this->table.$this->esc)->set($this->esc.'value'.$this->esc, $this->esc.'value'.$this->esc.' + 1')->where($this->esc.'key'.$this->esc.' = ?');
         $this->statementKeyIncr = $this->connection->prepare($queryBuilder->getSQL());
     }
 
@@ -106,6 +119,7 @@ class DBAL extends AbstractStorage {
         parent::__construct();
         $this->connection = $connection;
         $this->table      = $table;
+        $this->esc        =  $connection->getDriver()->getName() === 'pdo_pgsql' ? '"' : '`';
         $this->buildStatements();
     }
 
@@ -150,9 +164,9 @@ class DBAL extends AbstractStorage {
         }, $keys);
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
-            ->select('`key`', '`value`')
-            ->from('`'.$this->table.'`')
-            ->where('`key` IN (?)')
+            ->select($this->esc.'key'.$this->esc, $this->esc.'value'.$this->esc)
+            ->from($this->esc.$this->table.$this->esc)
+            ->where($this->esc.'key'.$this->esc.' IN (?)')
             ->setParameter(1, $prefixedKeys, Connection::PARAM_STR_ARRAY)
         ;
         $measurements = [];

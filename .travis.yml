@@ -12,6 +12,7 @@ services:
     - memcached
     - redis-server
     - mysql
+    - postgresql
 before_script:
     - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini

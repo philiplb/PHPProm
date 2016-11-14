@@ -15,13 +15,16 @@ abstract class AbstractDBALTest extends AbstractStorageTest {
 
     protected $database;
 
+    protected $esc;
+
     protected function connectToDatabase($connectionParams) {
         $config = new \Doctrine\DBAL\Configuration();
         $this->database = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $this->esc = '`';
     }
 
     protected function getRawKey($key) {
-        $sql = 'SELECT `value` FROM phpprom WHERE `key` = ?';
+        $sql = 'SELECT '.$this->esc.'value'.$this->esc.' FROM '.$this->esc.'phpprom'.$this->esc.' WHERE '.$this->esc.'key'.$this->esc.' = ?';
         $result = $this->database->fetchAssoc($sql, [$key]);
         return (int)$result['value'];
     }

@@ -65,8 +65,7 @@ class MongoDB extends AbstractStorage {
         $document = ['key' => $metric.':'.$key, 'value' => $value];
         $filter = ['key' => $metric.':'.$key];
         $bulkWrite->update($filter, $document, ['upsert' => true]);
-        $writeConcern = new \MongoDB\Driver\WriteConcern(\MongoDB\Driver\WriteConcern::MAJORITY, 1000);
-        $this->mongoDBManager->executeBulkWrite($this->database.'.'.$this->collection, $bulkWrite, $writeConcern);
+        $this->mongoDBManager->executeBulkWrite($this->database.'.'.$this->collection, $bulkWrite);
     }
 
     /**

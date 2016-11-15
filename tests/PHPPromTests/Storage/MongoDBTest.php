@@ -24,8 +24,7 @@ class MongoDBTest extends AbstractStorageTest {
         $bulkDelete = new \MongoDB\Driver\BulkWrite;
         $bulkDelete->delete(['key' => 'metric:key']);
         $bulkDelete->delete(['key' => 'metric:incrementKey']);
-        $writeConcern = new \MongoDB\Driver\WriteConcern(\MongoDB\Driver\WriteConcern::MAJORITY, 1000);
-        $this->mongoDBManager->executeBulkWrite('phppromdb.measurements', $bulkDelete, $writeConcern);
+        $this->mongoDBManager->executeBulkWrite('phppromdb.measurements', $bulkDelete);
     }
 
     protected function getRawKey($key) {

@@ -90,7 +90,7 @@ class DBAL extends AbstractStorage {
      * Builds the prepared statements.
      */
     protected function buildStatements() {
-        $quote = $this->quote;
+        $quote                    = $this->quote;
         $queryBuilder             = $this->connection->createQueryBuilder()
             ->select('COUNT('.$quote.'key'.$quote.') AS amount')->from($quote.$this->table.$quote)->where(''.$quote.'key'.$quote.' = ?');
         $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());

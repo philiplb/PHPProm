@@ -33,7 +33,6 @@ abstract class AbstractStorageTest extends \PHPUnit_Framework_TestCase {
         $read = $this->getRawKey('metric:incrementKey');
         $expected = 2;
         $this->assertSame($expected, $read);
-
     }
 
     public function testGetMeasurements() {

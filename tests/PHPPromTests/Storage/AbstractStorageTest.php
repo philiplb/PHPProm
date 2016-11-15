@@ -36,7 +36,7 @@ abstract class AbstractStorageTest extends \PHPUnit_Framework_TestCase {
 
     }
 
-    public function testGetMeasurement() {
+    public function testGetMeasurements() {
         $this->storage->storeMeasurement('metric', 'key', 42);
         $read = $this->storage->getMeasurements('metric', ['key', 'anotherKey'], 'Foo');
         $expected = [

@@ -223,6 +223,21 @@ CREATE UNIQUE INDEX phpprom_key_uindex ON public.phpprom (key);
 This one is possibly the slowest one, but offers a secure data storage
 and is mostly available in existing stacks.
 
+
+### MongoDB
+
+The MongoDB storage needs to have the [PHP MongoDB driver](http://php.net/manual/en/set.mongodb.php) installed. Its
+constructor takes the following parameters:
+
+- _string $host_: a mongodb:// connection URI
+- _string $database_: the database to use, defaults to "phppromdb"
+- _string $collection_: the collection to use, defaults to "measurements"
+- _array $options_: connection string options, defaults to []
+- _array $driverOptions_: any driver-specific options not included in MongoDB connection spec, defaults to []
+
+This storage should be reasonable fast, offers persistence but should maybe only taken if Redis, MySQL or PostgreSQL is
+not available.
+
 ### Custom
 
 In case you want to store the measurements in a different backend,

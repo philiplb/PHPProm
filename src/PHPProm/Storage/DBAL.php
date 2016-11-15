@@ -82,28 +82,29 @@ class DBAL extends AbstractStorage {
 
     /**
      * @var string
-     * the sign to use to escape names
+     * the sign to use to quote identifiers in queries
      */
-    protected $esc;
+    protected $quote;
 
     /**
      * Builds the prepared statements.
      */
     protected function buildStatements() {
+        $quote = $this->quote;
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->select('COUNT('.$this->esc.'key'.$this->esc.') AS amount')->from($this->esc.$this->table.$this->esc)->where(''.$this->esc.'key'.$this->esc.' = ?');
+            ->select('COUNT('.$quote.'key'.$quote.') AS amount')->from($quote.$this->table.$quote)->where(''.$quote.'key'.$quote.' = ?');
         $this->statementKeyExists = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->insert($this->esc.$this->table.$this->esc)->setValue($this->esc.'value'.$this->esc, '?')->setValue(''.$this->esc.'key'.$this->esc.'', '?');
+            ->insert($quote.$this->table.$quote)->setValue($quote.'value'.$quote, '?')->setValue(''.$quote.'key'.$quote.'', '?');
         $this->statementKeyInsert = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder             = $this->connection->createQueryBuilder()
-            ->update($this->esc.$this->table.$this->esc)->set($this->esc.'value'.$this->esc, '?')->where($this->esc.'key'.$this->esc.' = ?');
+            ->update($quote.$this->table.$quote)->set($quote.'value'.$quote, '?')->where($quote.'key'.$quote.' = ?');
         $this->statementKeyUpdate = $this->connection->prepare($queryBuilder->getSQL());
 
         $queryBuilder           = $this->connection->createQueryBuilder()
-            ->update($this->esc.$this->table.$this->esc)->set($this->esc.'value'.$this->esc, $this->esc.'value'.$this->esc.' + 1')->where($this->esc.'key'.$this->esc.' = ?');
+            ->update($quote.$this->table.$quote)->set($quote.'value'.$quote, $quote.'value'.$quote.' + 1')->where($quote.'key'.$quote.' = ?');
         $this->statementKeyIncr = $this->connection->prepare($queryBuilder->getSQL());
     }
 
@@ -119,7 +120,7 @@ class DBAL extends AbstractStorage {
         parent::__construct();
         $this->connection = $connection;
         $this->table      = $table;
-        $this->esc        = $connection->getDatabasePlatform()->getIdentifierQuoteCharacter();
+        $this->quote        = $connection->getDatabasePlatform()->getIdentifierQuoteCharacter();
         $this->buildStatements();
     }
 
@@ -162,11 +163,12 @@ class DBAL extends AbstractStorage {
         $prefixedKeys = array_map(function($key) use ($metric) {
             return $metric.':'.$key;
         }, $keys);
+        $quote = $this->quote;
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
-            ->select($this->esc.'key'.$this->esc, $this->esc.'value'.$this->esc)
-            ->from($this->esc.$this->table.$this->esc)
-            ->where($this->esc.'key'.$this->esc.' IN (?)')
+            ->select($quote.'key'.$quote, $quote.'value'.$quote)
+            ->from($quote.$this->table.$quote)
+            ->where($quote.'key'.$quote.' IN (?)')
             ->setParameter(1, $prefixedKeys, Connection::PARAM_STR_ARRAY)
         ;
         $measurements = [];

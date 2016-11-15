@@ -120,7 +120,7 @@ class DBAL extends AbstractStorage {
         parent::__construct();
         $this->connection = $connection;
         $this->table      = $table;
-        $this->quote        = $connection->getDatabasePlatform()->getIdentifierQuoteCharacter();
+        $this->quote      = $connection->getDatabasePlatform()->getIdentifierQuoteCharacter();
         $this->buildStatements();
     }
 
@@ -163,7 +163,7 @@ class DBAL extends AbstractStorage {
         $prefixedKeys = array_map(function($key) use ($metric) {
             return $metric.':'.$key;
         }, $keys);
-        $quote = $this->quote;
+        $quote        = $this->quote;
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder
             ->select($quote.'key'.$quote, $quote.'value'.$quote)

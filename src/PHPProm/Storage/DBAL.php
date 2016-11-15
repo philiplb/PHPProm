@@ -119,7 +119,7 @@ class DBAL extends AbstractStorage {
         parent::__construct();
         $this->connection = $connection;
         $this->table      = $table;
-        $this->esc        = $connection->getDriver()->getName() === 'pdo_pgsql' ? '"' : '`';
+        $this->esc        = $connection->getDatabasePlatform()->getIdentifierQuoteCharacter();
         $this->buildStatements();
     }
 

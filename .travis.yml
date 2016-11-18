@@ -22,8 +22,8 @@ before_script:
     - composer install
 script: vendor/bin/phpunit
 php:
-#    - 5.5
-#    - 5.6
+    - 5.5.37
+    - 5.6.25
     - 7
 after_script:
     - php vendor/bin/coveralls -v

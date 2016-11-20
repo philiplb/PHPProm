@@ -14,7 +14,7 @@ for various backends like Redis or Memcached.
 
 ## Documentation
 
-- [API Documentation 0.1.0](http://philiplb.github.io/PHPProm/docs/0.1.0/) (upcoming)
+- [API Documentation 0.1.0](http://philiplb.github.io/PHPProm/docs/0.1.0/)
 
 
 ## Package
@@ -25,13 +25,17 @@ in the changelog when upgrading.
 
 ### Stable
 
-Upcoming.
+```json
+"require": {
+    "philiplb/crudlex": "0.1.0"
+}
+```
 
 ### Bleeding Edge
 
 ```json
 "require": {
-    "philiplb/crudlex": "0.1.x-dev"
+    "philiplb/crudlex": "0.2.x-dev"
 }
 ```
 

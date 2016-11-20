@@ -90,9 +90,21 @@ following metrics:
 - Consumed memory per route as gauge
 - How often each route has been called as counter
 
-It requires the package ["silex/silex"](https://packagist.org/packages/silex/silex).
+Each metric has the route as label "name". Wheras the slashes
+are replaced by underscores and the route method is prefixed. So a
+route like this
 
-The integration is represented by the class
+```PHP
+$app->get('my/great/{route}', function($route) {
+	// ...
+});
+```
+gets the label "GET\_my\_great_{route}".
+
+This integration requires the package
+["silex/silex"](https://packagist.org/packages/silex/silex).
+
+It is represented by the class
 _PHPProm\Integration\SilexSetup_ with it's usage explained in the
 "Getting Started" section.
 

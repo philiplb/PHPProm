@@ -53,8 +53,8 @@ class MongoDB extends AbstractStorage {
     public function __construct($host, $database = 'phppromdb', $collection = 'measurements', array $options = [], array $driverOptions = []) {
         parent::__construct();
         $this->mongoDBManager = new \MongoDB\Driver\Manager($host, $options, $driverOptions);
-        $this->database = $database;
-        $this->collection = $collection;
+        $this->database       = $database;
+        $this->collection     = $collection;
     }
 
     /**
@@ -62,8 +62,8 @@ class MongoDB extends AbstractStorage {
      */
     public function storeMeasurement($metric, $key, $value) {
         $bulkWrite = new \MongoDB\Driver\BulkWrite;
-        $document = ['key' => $metric.':'.$key, 'value' => $value];
-        $filter = ['key' => $metric.':'.$key];
+        $document  = ['key' => $metric.':'.$key, 'value' => $value];
+        $filter    = ['key' => $metric.':'.$key];
         $bulkWrite->update($filter, $document, ['upsert' => true]);
         $this->mongoDBManager->executeBulkWrite($this->database.'.'.$this->collection, $bulkWrite);
     }
@@ -72,11 +72,11 @@ class MongoDB extends AbstractStorage {
      * {@inheritdoc}
      */
     public function incrementMeasurement($metric, $key) {
-        $filter = ['key' => $metric.':'.$key];
+        $filter  = ['key' => $metric.':'.$key];
         $options = ['limit' => 1];
-        $query = new \MongoDB\Driver\Query($filter, $options);
+        $query   = new \MongoDB\Driver\Query($filter, $options);
         $results = $this->mongoDBManager->executeQuery($this->database.'.'.$this->collection, $query);
-        $value = 1;
+        $value   = 1;
         foreach ($results as $result) {
             $value += $result->value;
             break;
@@ -96,8 +96,8 @@ class MongoDB extends AbstractStorage {
         foreach ($keys as $key) {
             $measurements[$key] = $defaultValue;
         }
-        $filter = ['key' => ['$in' => $prefixedKeys]];
-        $query = new \MongoDB\Driver\Query($filter);
+        $filter  = ['key' => ['$in' => $prefixedKeys]];
+        $query   = new \MongoDB\Driver\Query($filter);
         $results = $this->mongoDBManager->executeQuery($this->database.'.'.$this->collection, $query);
         foreach ($results as $result) {
             $unprefixedKey                = substr($result->key, strlen($metric) + 1);

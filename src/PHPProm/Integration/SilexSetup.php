@@ -14,6 +14,7 @@ namespace PHPProm\Integration;
 use PHPProm\PrometheusExport;
 use PHPProm\StopWatch;
 use PHPProm\Storage\AbstractStorage;
+use Silex\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Silex\Application;
@@ -59,6 +60,31 @@ class SilexSetup {
     }
 
     /**
+     * Gets the path with all methods from a route.
+     *
+     * @param Route $route
+     * the route to get the path and methods from
+     * @return array
+     * the pathes with methods
+     */
+    protected function getPathWithMethods(Route $route) {
+        $supportedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
+        $path             = str_replace('/', '_', $route->getPath());
+        $foundMethod      = false;
+        $routes           = [];
+        foreach ($route->getMethods() as $method) {
+            $routes[]    = $method.$path;
+            $foundMethod = true;
+        }
+        if (!$foundMethod) {
+            foreach ($supportedMethods as $supportedMethod) {
+                $routes[] = $supportedMethod.$path;
+            }
+        }
+        return $routes;
+    }
+
+    /**
      * Sets up the Silex middlewares where the actual measurements happen
      * and returns a function to be used for a Prometheus scrapable endpoint.
      *
@@ -78,17 +104,7 @@ class SilexSetup {
             $routes = [];
             $supportedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
             foreach ($app['routes']->all() as $route) {
-                $path        = str_replace('/', '_', $route->getPath());
-                $foundMethod = false;
-                foreach ($route->getMethods() as $method) {
-                    $routes[] = $method.$path;
-                    $foundMethod = true;
-                }
-                if (!$foundMethod) {
-                    foreach ($supportedMethods as $supportedMethod) {
-                        $routes[] = $supportedMethod.$path;
-                    }
-                }
+                $routes = array_merge($routes, $this->getPathWithMethods($route));
             }
             $export   = new PrometheusExport();
             $response = $export->getExport($storage, $routes);

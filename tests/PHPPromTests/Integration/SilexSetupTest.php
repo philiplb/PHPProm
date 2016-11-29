@@ -53,7 +53,7 @@ class SilexSetupTest extends WebTestCase {
         $app->get('/test2', function() {
             return 'ok';
         });
-        $app->get('/test3', function() {
+        $app->match('/test3', function() {
             return 'ok';
         });
 
@@ -78,6 +78,11 @@ class SilexSetupTest extends WebTestCase {
         $this->assertRegExp('/route_time{name="GET_test1"} [0-9]+/', $content);
         $this->assertRegExp('/route_time{name="GET_test2"} [0-9]+/', $content);
         $this->assertRegExp('/route_time{name="GET_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_time{name="POST_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_time{name="PUT_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_time{name="DELETE_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_time{name="PATCH_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_time{name="OPTIONS_test3"} Nan+/', $content);
 
         $this->assertRegExp('/# HELP route\\_memory request memory per route in bytes/', $content);
         $this->assertRegExp('/# TYPE route\\_memory gauge/', $content);
@@ -85,6 +90,11 @@ class SilexSetupTest extends WebTestCase {
         $this->assertRegExp('/route_memory{name="GET_test1"} [0-9]+/', $content);
         $this->assertRegExp('/route_memory{name="GET_test2"} [0-9]+/', $content);
         $this->assertRegExp('/route_memory{name="GET_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_memory{name="POST_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_memory{name="PUT_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_memory{name="DELETE_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_memory{name="PATCH_test3"} Nan+/', $content);
+        $this->assertRegExp('/route_memory{name="OPTIONS_test3"} Nan+/', $content);
 
         $this->assertRegExp('/# HELP route\\_requests_total total requests per route/', $content);
         $this->assertRegExp('/# TYPE route\\_requests_total counter/', $content);
@@ -92,6 +102,11 @@ class SilexSetupTest extends WebTestCase {
         $this->assertRegExp('/route_requests_total{name="GET_test1"} 1/', $content);
         $this->assertRegExp('/route_requests_total{name="GET_test2"} 2/', $content);
         $this->assertRegExp('/route_requests_total{name="GET_test3"} 0/', $content);
+        $this->assertRegExp('/route_requests_total{name="POST_test3"} 0/', $content);
+        $this->assertRegExp('/route_requests_total{name="PUT_test3"} 0/', $content);
+        $this->assertRegExp('/route_requests_total{name="DELETE_test3"} 0/', $content);
+        $this->assertRegExp('/route_requests_total{name="PATCH_test3"} 0/', $content);
+        $this->assertRegExp('/route_requests_total{name="OPTIONS_test3"} 0/', $content);
 
     }
 }

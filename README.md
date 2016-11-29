@@ -73,7 +73,7 @@ to be used as metrics route which can be scraped by Prometheus:
 
 ```PHP
 $silexPrometheusSetup = new PHPProm\Integration\SilexSetup();
-$metricsAction = silexPrometheusSetup->setupAndGetMetricsRoute($app, $storage);
+$metricsAction = $silexPrometheusSetup->setupAndGetMetricsRoute($app, $storage);
 $app->get('/metrics', $metricsAction);
 ```
 

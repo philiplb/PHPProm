@@ -27,7 +27,7 @@ in the changelog when upgrading.
 
 ```json
 "require": {
-    "philiplb/crudlex": "0.1.0"
+    "philiplb/phpprom": "0.1.0"
 }
 ```
 
@@ -35,7 +35,7 @@ in the changelog when upgrading.
 
 ```json
 "require": {
-    "philiplb/crudlex": "0.2.x-dev"
+    "philiplb/phpprom": "0.2.x-dev"
 }
 ```
 

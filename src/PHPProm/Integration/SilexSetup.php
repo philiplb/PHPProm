@@ -102,7 +102,6 @@ class SilexSetup {
 
         return function() use ($app, $storage) {
             $routes = [];
-            $supportedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
             foreach ($app['routes']->all() as $route) {
                 $routes = array_merge($routes, $this->getPathWithMethods($route));
             }

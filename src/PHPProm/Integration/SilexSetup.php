@@ -76,10 +76,18 @@ class SilexSetup {
 
         return function() use ($app, $storage) {
             $routes = [];
+            $supportedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'];
             foreach ($app['routes']->all() as $route) {
-                $path = str_replace('/', '_', $route->getPath());
+                $path        = str_replace('/', '_', $route->getPath());
+                $foundMethod = false;
                 foreach ($route->getMethods() as $method) {
                     $routes[] = $method.$path;
+                    $foundMethod = true;
+                }
+                if (!$foundMethod) {
+                    foreach ($supportedMethods as $supportedMethod) {
+                        $routes[] = $supportedMethod.$path;
+                    }
                 }
             }
             $export   = new PrometheusExport();

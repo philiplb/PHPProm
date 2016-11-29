@@ -14,10 +14,10 @@ namespace PHPProm\Integration;
 use PHPProm\PrometheusExport;
 use PHPProm\StopWatch;
 use PHPProm\Storage\AbstractStorage;
+use Silex\Application;
 use Silex\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Silex\Application;
 
 /**
  * Class SilexSetup

@@ -45,18 +45,15 @@ class Slim3Setup {
         $storage->addAvailableMetric('route_requests_total', 'name', 'total requests per route', 'counter', 0);
 
         $app->add(function(Request $request, Response $response, App $next) use ($storage) {
-
-            $method = $request->getMethod();
-            $pattern = str_replace('/', '_', $request->getAttribute('route')->getPattern());
-            $route = $method.$pattern;
-
+            $method    = $request->getMethod();
+            $pattern   = str_replace('/', '_', $request->getAttribute('route')->getPattern());
+            $route     = $method.$pattern;
             $routeTime = new StopWatch($storage);
             $routeTime->start();
             $response = $next($request, $response);
             $routeTime->stop('route_time', $route);
             $storage->storeMeasurement('route_memory', $route, memory_get_peak_usage(true));
             $storage->incrementMeasurement('route_requests_total', $route);
-
             return $response;
         });
     }
@@ -70,10 +67,10 @@ class Slim3Setup {
      * the pathes with methods
      */
     protected function getPathWithMethods(Route $route) {
-        $routes   = [];
-        $pattern  = str_replace('/', '_', $route->getPattern());
-        $methods  = $route->getMethods();
-        foreach($methods as $method) {
+        $routes  = [];
+        $pattern = str_replace('/', '_', $route->getPattern());
+        $methods = $route->getMethods();
+        foreach ($methods as $method) {
             $routes[] = $method.$pattern;
         }
         return $routes;
@@ -94,7 +91,7 @@ class Slim3Setup {
     public function setupAndGetMetricsRoute(App $app, AbstractStorage $storage) {
         $this->setupMiddleware($app, $storage);
         $self = $this;
-        return function (Request $request, Response $response) use ($app, $storage, $self) {
+        return function(Request $request, Response $response) use ($app, $storage, $self) {
             $routes          = [];
             $availableRoutes = $app->getContainer()->get('router')->getRoutes();
             foreach ($availableRoutes as $route) {
